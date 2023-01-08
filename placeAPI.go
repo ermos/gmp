@@ -39,7 +39,7 @@ type Place struct {
 		} `json:"plus_code"`
 		Types []string `json:"types"`
 	} `json:"candidates"`
-	Status string `json:"status"`
+	Status       string `json:"status"`
 	ErrorMessage string `json:"error_message"`
 }
 
@@ -49,7 +49,7 @@ type Place struct {
 //    website, address_component, adr_address, business_status, formatted_address,
 //    geometry, icon, icon_mask_base_uri, icon_background_color, name, permanently_closed (deprecated),
 //    photo, place_id, plus_code, type, url, utc_offset, vicinity, price_level, rating, review, user_ratings_total
-var FindPlaceDefaultFields = []string{ "name", "formatted_address", "geometry" }
+var FindPlaceDefaultFields = []string{"name", "formatted_address", "geometry"}
 
 // FindPlaceByPhoneNumber takes a phone number and returns a place.
 func (c *Client) FindPlaceByPhoneNumber(ctx context.Context, phoneNumber string, fields []string) (Place, error) {
@@ -57,7 +57,7 @@ func (c *Client) FindPlaceByPhoneNumber(ctx context.Context, phoneNumber string,
 }
 
 // FindPlaceByString takes a text input and returns a place.
-func (c *Client) FindPlaceByString(ctx context.Context, text string, fields []string) (Place, error)  {
+func (c *Client) FindPlaceByString(ctx context.Context, text string, fields []string) (Place, error) {
 	return c.findplace(ctx, "textquery", text, fields)
 }
 
@@ -67,12 +67,12 @@ func (c *Client) findplace(ctx context.Context, inputType, input string, fields 
 	}
 
 	url := c.buildUrl("https://maps.googleapis.com/maps/api/place/findplacefromtext/json", map[string]string{
-		"fields": strings.Join(fields, ","),
-		"input": input,
+		"fields":    strings.Join(fields, ","),
+		"input":     input,
 		"inputtype": inputType,
 	})
 
-	client := &http.Client {}
+	client := &http.Client{}
 
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
